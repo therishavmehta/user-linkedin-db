@@ -25,3 +25,14 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: #705a3e;
 }
+
+.form-container {
+    padding-top: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .form-container {
+    margin: 16px;
+    padding-top: 30px;
+  }
+}

@@ -27,7 +27,7 @@ function RegisterForm(props) {
         event.preventDefault();
         if(!hasErrorInForm()) {
             const response = await postData(formInput);
-            if (response.status === "CREATED" || response.status === "UPDATED") {
+            if (response["STATUS"] === "CREATED" || response["STATUS"] === "UPDATED") {
                 changeFormInput({
                     first_name: '',
                     last_name: '',
@@ -131,7 +131,7 @@ function RegisterForm(props) {
 
     return (
         <>
-            <form style={{paddingTop:'30px'}} onSubmit={handleSubmit}>
+            <form className="form-container" onSubmit={handleSubmit}>
                <label for="first_name">First name:</label><br />
                 <input type="text" id="first_name" name="first_name" value={formInput.first_name}
                 onChange={(event) => formChange(event, RegisterForm.INPUT.first_name)}/><br />
