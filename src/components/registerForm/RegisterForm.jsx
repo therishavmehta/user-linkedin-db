@@ -131,7 +131,7 @@ function RegisterForm(props) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form style={{paddingTop:'30px'}} onSubmit={handleSubmit}>
                <label for="first_name">First name:</label><br />
                 <input type="text" id="first_name" name="first_name" value={formInput.first_name}
                 onChange={(event) => formChange(event, RegisterForm.INPUT.first_name)}/><br />

@@ -8,7 +8,7 @@ function Nav() {
         color: 'white'
     }
     return (
-        <nav>
+        <nav style={{position: 'fixed', width: '100%'}}>
             <ul className="nav-links">
                 <Link style={navStyle} to="/">
                     <li>Home</li>
