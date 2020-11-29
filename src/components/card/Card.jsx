@@ -6,7 +6,7 @@ import './styles.css';
  * @param {Object} props - properties which are passed.
  * gets the required item for the card and return the structured node
  */
-function Card({ first_name, last_name, picture, linkedInProfile }) {
+function Card({ first_name='', last_name='', picture='', linkedInProfile='' }) {
 
     /**
      *
@@ -20,7 +20,7 @@ function Card({ first_name, last_name, picture, linkedInProfile }) {
     return (
         <a className="card" onClick={() => openCardInNewTab(linkedInProfile)}>
             <div className="card-image">
-                <img src={picture} alt={`${first_name} ${last_name}`} />
+                <img src={picture} alt={`${first_name} ${last_name}` || 'user'} />
             </div>
             <div className="card-name">
                 <h4>{`${first_name} ${last_name}`}</h4>

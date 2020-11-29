@@ -121,3 +121,5 @@ RegisterForm.INPUT = {
     phone: 'phone',
     linkedin: 'linkedin'
 }
+
+export default RegisterForm;
