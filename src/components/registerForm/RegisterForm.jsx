@@ -27,7 +27,7 @@ function RegisterForm(props) {
         event.preventDefault();
         if(!hasErrorInForm()) {
             const response = await postData(formInput);
-            if (response["STATUS"] === "CREATED" || response["STATUS"] === "UPDATED") {
+            if (response && response.data && (response["STATUS"] === "CREATED" || response["STATUS"] === "UPDATED")) {
                 changeFormInput({
                     first_name: '',
                     last_name: '',
@@ -122,10 +122,8 @@ function RegisterForm(props) {
      * checks all the field in the form
      */
     const hasErrorInForm = () => {
-        const allValid = true;
-        Object.values(RegisterForm.INPUT)
-                .forEach(param => allValid && isParamValid(param, formInput[param]));
-        return allValid
+        return Object.values(RegisterForm.INPUT)
+                .reduce((param, acc) => acc && isParamValid(param, formInput[param]), true);
     }
 
 
