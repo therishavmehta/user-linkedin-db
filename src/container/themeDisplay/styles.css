@@ -1,0 +1,20 @@
+.display-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.card-content {
+  max-width: 800px;
+  padding: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 3fr));
+  box-sizing: border-box;
+  grid-gap: 10px;
+  justify-items: center;
+}
