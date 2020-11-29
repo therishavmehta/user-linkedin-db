@@ -6,8 +6,8 @@ import './styles.css';
  * @param {Object} props - properties which are passed.
  * gets the required item for the card and return the structured node
  */
-function Card({ first_name='', last_name='', picture='', linkedInProfile='' }) {
 
+function Card({ first_name='', last_name='', picture='', linkedInProfile='' }) {
     /**
      *
      * @param {String} url - url to open

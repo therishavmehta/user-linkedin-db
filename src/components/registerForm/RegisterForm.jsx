@@ -1,28 +1,48 @@
 import React, {useState} from 'react';
+import './styles.css';
 
-
-function RegisterForm() {
+function RegisterForm(props) {
+    const { postData } = props;
     const [formInput, changeFormInput] = useState({
-        fName: '',
-        lName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phone: '',
-        linkedIn: ''
+        linkedinProfile: ''
     });
 
     const [errors, changeError] = useState({
-        fName: '',
-        lName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phone: '',
-        linkedin: ''
+        linkedinProfile: ''
     });
 
-    const handleSubmit= (event) => {
+    /**
+     *
+     * @param {Object} event
+     */
+    const handleSubmit= async (event) => {
         event.preventDefault();
-        !hasErrorInForm() &&  console.log("Form to be submitted");
+        if(!hasErrorInForm()) {
+            const response = await postData(formInput);
+            if (response.status === "CREATED" || response.status === "UPDATED") {
+                changeFormInput({
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    phone: '',
+                    linkedinProfile: ''});
+            }
+        }
     }
 
+    /**
+     *
+     * @param {Object} event
+     * @param {Enum} param
+     */
     const formChange = (event, param) => {
         changeFormInput(otherProps => ({
             ...otherProps,
@@ -30,6 +50,11 @@ function RegisterForm() {
         }));
     }
 
+    /**
+     *
+     * @param {Enum} param
+     * @param {string} value
+     */
     const setError = (param, value) => {
         changeError(otherProps => ({
             ...otherProps,
@@ -37,77 +62,96 @@ function RegisterForm() {
         }));
     }
 
-    const validURL = (str) => {
-        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    /**
+     *
+     * @param {String} str - to be tested
+     */
+    const isValidURL = (str) => {
+        let pattern = new RegExp('^(https?:\/\/(w{3}\.))*?linkedin.com\/?.*$', 'i');
         return !!pattern.test(str);
     }
 
+    /**
+    *
+    * @param {String} str - to be tested
+    */
+    const isValidEmail = (str) => {
+        const pattern = new RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$', 'i');
+        return !!pattern.test(str);
+
+    }
+
+    /**
+     *
+     * @param {Enum} param - param to be tested
+     * @param {string} value - value of field
+     */
     const isParamValid = (param, value) => {
+        let errVal;
         switch(param) {
-            case RegisterForm.INPUT.fName:
-                const errVal = !!value ? '' : 'First Name is required!';
-                setError(RegisterForm.INPUT.fName, errVal);
+            case RegisterForm.INPUT.first_name:
+                errVal = !!value ? '' : 'First Name is required!';
+                setError(RegisterForm.INPUT.first_name, errVal);
                 return !!!errVal;
-            case RegisterForm.INPUT.lName:
-                const errVal = !!value ? '' : 'Last Name is required!';
-                setError(RegisterForm.INPUT.lName, errVal);
+            case RegisterForm.INPUT.last_name:
+                errVal = !!value ? '' : 'Last Name is required!';
+                setError(RegisterForm.INPUT.last_name, errVal);
                 return !!!errVal;
             case RegisterForm.INPUT.email:
-                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                const isValidEmail = re.test(value);
-                const errVal = !!value && isValidEmail ? '' : 'Invalid Email Id!'
+                const isValid = isValidEmail(value);
+                errVal = !!value && isValid ? '' : 'Invalid Email Id!'
                 setError(RegisterForm.INPUT.email, errVal);
                 return !!!errVal;
             case RegisterForm.INPUT.phone:
                 const re = /^\d{10}$/;
                 const isValidNumer = re.test(value);
-                const errVal = !!value && isValidNumer ? '' : 'Invalid phone number!';
+                errVal = !!value && isValidNumer ? '' : 'Invalid phone number!';
                 setError(RegisterForm.INPUT.phone, errVal);
                 return !!!errVal;
-            case RegisterForm.INPUT.linkedin:
-                const isValidUrl = validURL(value);
-                const errVal = !!value && isValidUrl ? '' : 'Invalid linkedin url!';
-                setError(RegisterForm.INPUT.linkedin, errVal);
+            case RegisterForm.INPUT.linkedinProfile:
+                const isValidUrl = isValidURL(value);
+                errVal = !!value && isValidUrl ? '' : 'Invalid linkedin url!';
+                setError(RegisterForm.INPUT.linkedinProfile, errVal);
                 return !!!errVal;
             default:
                 return false;
         }
     }
 
+    /**
+     * checks all the field in the form
+     */
     const hasErrorInForm = () => {
-        return !Object.values(RegisterForm.INPUT)
-                .every(param => isParamValid(param, formInput[param]));
+        const allValid = true;
+        Object.values(RegisterForm.INPUT)
+                .forEach(param => allValid && isParamValid(param, formInput[param]));
+        return allValid
     }
 
 
     return (
         <>
             <form onSubmit={handleSubmit}>
-               <label for="fname">First name:</label><br />
-                <input type="text" id="fname" name="fname" value={formInput.fName}
-                onChange={(event) => formChange(event, RegisterForm.INPUT.fName)}/><br />
-                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.fName]}</span><br />
-               <label for="lname">Last name:</label><br />
-                <input type="text" id="lname" name="lname" value={formInput.lName}
-                onChange={(event) => formChange(event, RegisterForm.INPUT.lName)}/>
-                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.lName]}</span><br />
+               <label for="first_name">First name:</label><br />
+                <input type="text" id="first_name" name="first_name" value={formInput.first_name}
+                onChange={(event) => formChange(event, RegisterForm.INPUT.first_name)}/><br />
+                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.first_name]}</span><br />
+               <label for="last_name">Last name:</label><br />
+                <input type="text" id="last_name" name="last_name" value={formInput.last_name}
+                onChange={(event) => formChange(event, RegisterForm.INPUT.last_name)}/><br />
+                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.last_name]}</span><br />
                <label for="email">Email:</label><br />
                 <input type="text" id="email" name="email" value={formInput.email}
                 onChange={(event) => formChange(event, RegisterForm.INPUT.email)}/><br />
                 <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.email]}</span><br />
                <label for="phone">Phone:</label><br />
                 <input type="text" id="phone" name="phone" value={formInput.phone}
-                onChange={(event) => formChange(event, RegisterForm.INPUT.phone)}/>
-                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.email]}</span><br />
-               <label for="linkedin">Last name:</label><br />
-                <input type="text" id="linkedin" name="linkedin" value={formInput.linkedIn}
-                onChange={(event) => formChange(event, RegisterForm.INPUT.linkedin)}/>
-                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.linkedin]}</span><br />
+                    onChange={(event) => formChange(event, RegisterForm.INPUT.phone)} /><br />
+                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.phone]}</span><br />
+               <label for="linkedinProfile">Linkedin ID:</label><br />
+                <input type="text" id="linkedinProfile" name="linkedinProfile" value={formInput.linkedinProfile}
+                    onChange={(event) => formChange(event, RegisterForm.INPUT.linkedinProfile)} /><br />
+                <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.linkedinProfile]}</span><br />
                <input type="submit" />
             </form>
         </>
@@ -115,11 +159,11 @@ function RegisterForm() {
 }
 
 RegisterForm.INPUT = {
-    fName: 'fname',
-    lName: 'lName',
+    first_name: 'first_name',
+    last_name: 'last_name',
     email: 'email',
     phone: 'phone',
-    linkedin: 'linkedin'
+    linkedinProfile: 'linkedinProfile'
 }
 
 export default RegisterForm;
