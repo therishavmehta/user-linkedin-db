@@ -78,9 +78,7 @@ function ThemeDisplay(props) {
     }
 
     const theme = {
-        backgroundColor: props.bgColor,
-        height: '94vh',
-        scroll: 'overflow'
+        backgroundColor: props.bgColor
     }
 
     return (
