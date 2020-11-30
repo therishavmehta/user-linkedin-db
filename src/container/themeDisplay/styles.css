@@ -1,11 +1,11 @@
 .display-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
+  padding-top: 50px;
 }
 
 .card-content {
