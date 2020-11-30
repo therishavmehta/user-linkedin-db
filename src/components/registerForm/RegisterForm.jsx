@@ -67,7 +67,7 @@ function RegisterForm(props) {
      * @param {String} str - to be tested
      */
     const isValidURL = (str) => {
-        let pattern = new RegExp('^(https?:\/\/(w{3}\.))*?linkedin.com\/?.*$', 'i');
+        let pattern = new RegExp('^(https?:\/\/(w{3}\.))?linkedin.com\/?.*$', 'i');
         return !!pattern.test(str);
     }
 
