@@ -87,7 +87,7 @@ function RegisterForm(props) {
      * @param {string} value - value of field
      */
     const isParamValid = (param, value) => {
-        let errVal;
+        let errVal, isValue;
         switch(param) {
             case RegisterForm.INPUT.first_name:
                 errVal = !!value ? '' : 'First Name is required!';
@@ -98,19 +98,22 @@ function RegisterForm(props) {
                 setError(RegisterForm.INPUT.last_name, errVal);
                 return !!!errVal;
             case RegisterForm.INPUT.email:
+                isValue = !!value;
                 const isValid = isValidEmail(value);
-                errVal = !!value && isValid ? '' : 'Invalid Email Id!'
+                errVal = `${!isValue ? 'Email is required!' : ''} ${isValue && !isValid ? 'Invalid Email Id': ''}`
                 setError(RegisterForm.INPUT.email, errVal);
                 return !!!errVal;
             case RegisterForm.INPUT.phone:
                 const re = /^\d{10}$/;
+                isValue = !!value;
                 const isValidNumer = re.test(value);
-                errVal = !!value && isValidNumer ? '' : 'Invalid phone number!';
+                errVal = `${!isValue ? 'Phone number is required!' : ''} ${isValue && !isValidNumer ? 'Invalid Phone number!' : ''}`
                 setError(RegisterForm.INPUT.phone, errVal);
                 return !!!errVal;
             case RegisterForm.INPUT.linkedinProfile:
+                isValue = !!value;
                 const isValidUrl = isValidURL(value);
-                errVal = !!value && isValidUrl ? '' : 'Invalid linkedin url!';
+                errVal = `${!isValue ? 'linkedin URL is required!' : ''} ${isValue && !isValidUrl ? 'Invalid Linkedin URL' : ''}`
                 setError(RegisterForm.INPUT.linkedinProfile, errVal);
                 return !!!errVal;
             default:
@@ -145,7 +148,7 @@ function RegisterForm(props) {
                 onChange={(event) => formChange(event, RegisterForm.INPUT.email)}/><br />
                 <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.email]}</span><br />
                <label for="phone">Phone:</label><br />
-                <input type="text" id="phone" name="phone" value={formInput.phone}
+                <input type="number" id="phone" name="phone" value={formInput.phone}
                     onChange={(event) => formChange(event, RegisterForm.INPUT.phone)} /><br />
                 <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.phone]}</span><br />
                <label for="linkedinProfile">Linkedin ID:</label><br />
