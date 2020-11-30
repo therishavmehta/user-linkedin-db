@@ -126,9 +126,9 @@ function RegisterForm(props) {
      */
     const hasErrorInForm = () => {
         const accumulator = true;
-        const isValid = !Object.values(RegisterForm.INPUT)
+        const hasError = !Object.values(RegisterForm.INPUT)
             .forEach((param) => accumulator && isParamValid(param, formInput[param]));
-        return isValid;
+        return !hasError;
     }
 
 
