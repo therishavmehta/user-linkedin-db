@@ -122,8 +122,10 @@ function RegisterForm(props) {
      * checks all the field in the form
      */
     const hasErrorInForm = () => {
-        return Object.values(RegisterForm.INPUT)
-                .reduce((param, acc) => acc && isParamValid(param, formInput[param]), true);
+        const accumulator = true;
+        const isValid = !Object.values(RegisterForm.INPUT)
+            .forEach((param) => accumulator && isParamValid(param, formInput[param]));
+        return isValid;
     }
 
 
@@ -150,7 +152,7 @@ function RegisterForm(props) {
                 <input type="text" id="linkedinProfile" name="linkedinProfile" value={formInput.linkedinProfile}
                     onChange={(event) => formChange(event, RegisterForm.INPUT.linkedinProfile)} /><br />
                 <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.linkedinProfile]}</span><br />
-               <input type="submit" />
+               <input type="submit" value="Register" />
             </form>
         </>
     )
