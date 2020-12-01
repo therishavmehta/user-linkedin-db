@@ -1,10 +1,19 @@
 import React, {useState} from 'react';
 import { Card, RegisterForm, Snackbar } from '../../components';
 import './styles.css';
+import primaryColors from '../../colorUtility';
+import App from '../../App';
 
+/**
+ *
+ * @param {Object} props - cards, appendAttribute, category
+ * Cards added to home will show in all links,
+ * cards added to any link will show on home
+ * category - currentCategory
+ */
 function ThemeDisplay(props) {
+    const { cards, appendCard, category } = props;
     const postAPI = 'http://13.235.55.43/test/api/create_user';
-    const [profiles, addProfiles] = useState([]);
     const [snackbar, changeSnackbar] = useState('');
 
     /**
@@ -61,8 +70,8 @@ function ThemeDisplay(props) {
     const addResponseProfiles = async (payload) => {
         try {
             const results = await postData(payload);
-            if(results && results["STATUS"] === "CREATED" || results["STATUS"] === "UPDATED") {
-                results && results.data && addProfiles(preProfiles => ([...preProfiles, results.data]));
+            if(results && (results["STATUS"] === "CREATED" || results["STATUS"] === "UPDATED")) {
+                results && results.data && appendCard(category, results.data);
                 changeSnackbar('Registration successful!');
                 setTimeout(() => {
                     changeSnackbar('')
@@ -78,17 +87,17 @@ function ThemeDisplay(props) {
     }
 
     const theme = {
-        backgroundColor: props.bgColor
+        backgroundColor: category === App.THEME.home ? 'white' : primaryColors[category]
     }
 
     return (
         <div className="display-container" style={theme}>
             <div className="card-content">
-                {getCardInstance(profiles)}
+                {getCardInstance(cards)}
             </div>
-            <div className="register-form">
-                <RegisterForm postData={addResponseProfiles}/>
-            </div>
+            <>
+                <RegisterForm postData={addResponseProfiles} borderColor={primaryColors[category]} />
+            </>
             {!!snackbar && <Snackbar text={snackbar}/>}
         </div>
     );

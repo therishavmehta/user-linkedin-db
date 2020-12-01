@@ -39,6 +39,7 @@ input[type=submit]:hover {
 
 .form-container {
     padding-top: 30px;
+    height: 100%;
 }
 
 @media only screen and (max-width: 600px) {

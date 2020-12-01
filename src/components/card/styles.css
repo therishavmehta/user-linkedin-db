@@ -1,23 +1,31 @@
 .card {
- width: 100px;
- height: 100px;
+ width: 200px;
+ height: 200px;
  margin: 5px;
  border-radius: 8px;
- background-color: teal;
+ background-color: white;
  overflow: hidden;
  display: flex;
+ flex-direction: row;
  flex-wrap: wrap;
- padding-top: 50px;
+ padding: 10px;
+ border: 1px solid black;
+ word-wrap: break-word;
 }
 
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  cursor: pointer;
+}
+
+a, a:visited {
+  text-decoration: none;
+  color: blue;
 }
 
 .card-image {
   height: 64px;
   width: 100%;
+  text-align: center;
 }
 
 .card-image img {
@@ -26,12 +34,11 @@
 }
 
 .card-name {
-  width: 250px;
-  padding: 0 10px;
+  max-width: 200px;
+  max-height: 150px;
+  height: 100px;
+  padding: 10px;
   font-size: 14px;
   color: #343434;
-  font-weight: 700;
-  overflow: visible;
-  display: flex;
-  justify-content: center;
+  overflow: auto;
 }

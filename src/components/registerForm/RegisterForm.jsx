@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './styles.css';
 
 function RegisterForm(props) {
+    const bgColor = props.borderColor === 'white' ? 'black' : props.borderColor;
     const { postData } = props;
     const [formInput, changeFormInput] = useState({
         first_name: '',
@@ -155,7 +156,8 @@ function RegisterForm(props) {
                 <input type="text" id="linkedInProfile" name="linkedInProfile" value={formInput.linkedInProfile}
                     onChange={(event) => formChange(event, RegisterForm.INPUT.linkedInProfile)} /><br />
                 <span style={{ color: "red" }}>{errors[RegisterForm.INPUT.linkedInProfile]}</span><br />
-               <input type="submit" value="Register" />
+                <input type="submit" value="Register" style={{
+                    border: `2px solid ${bgColor}`, backgroundColor: `white`, color: `${bgColor}`}}/>
             </form>
         </>
     )
